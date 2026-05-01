@@ -1,9 +1,26 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
 const ProductContext = createContext()
 
 export function ProductProvider({ children }) {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(() => {
+    try {
+      const savedProducts = localStorage.getItem('krishilink_products')
+      return savedProducts ? JSON.parse(savedProducts) : []
+    } catch (error) {
+      console.error('Error loading products from localStorage:', error)
+      return []
+    }
+  })
+
+  // Save products to localStorage whenever they change
+  useEffect(() => {
+    try {
+      localStorage.setItem('krishilink_products', JSON.stringify(products))
+    } catch (error) {
+      console.error('Error saving products to localStorage:', error)
+    }
+  }, [products])
 
   // Add new product to global state
   const addProduct = (productData) => {
@@ -62,6 +79,13 @@ export function ProductProvider({ children }) {
     return products.filter(product => product.status === 'Available').length
   }
 
+  // Clear all products (for logout)
+  const clearProducts = () => {
+    setProducts([])
+    localStorage.removeItem('krishilink_products')
+    console.log('ProductContext - Products cleared')
+  }
+
   const value = {
     products,
     addProduct,
@@ -71,6 +95,7 @@ export function ProductProvider({ children }) {
     deleteProduct,
     getProductsCount,
     getActiveProductsCount,
+    clearProducts,
   }
 
   return (

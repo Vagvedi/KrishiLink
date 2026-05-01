@@ -1,22 +1,32 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import { AuthProvider } from './contexts/AuthContext'
 import { useAuth } from './contexts/AuthContext'
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext'
 import { AppDataProvider, useAppData } from './contexts/AppDataContext'
 import { ThemeProvider, useTheme } from './contexts/ThemeContext'
-import { ProductProvider } from './contexts/ProductContext'
+import { ProductProvider, useProductContext } from './contexts/ProductContext'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import AddProduct from './pages/AddProduct'
 import Orders from './pages/Orders'
 import Buyers from './pages/Buyers'
+import Profile from './pages/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function AppContent() {
   const { user, loading } = useAuth()
   const { t } = useLanguage()
   const { theme } = useTheme()
+  const { clearProducts } = useProductContext()
+
+  // Clear products when user logs out
+  useEffect(() => {
+    if (!user && !loading) {
+      clearProducts()
+    }
+  }, [user, loading, clearProducts])
 
   if (loading) {
     return (
@@ -63,6 +73,14 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <Buyers />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           } 
         />

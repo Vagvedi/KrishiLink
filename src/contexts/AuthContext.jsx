@@ -103,13 +103,31 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
+      // Sign out from Supabase
       const { error } = await supabase.auth.signOut()
       if (error) throw error
       
+      // Clear auth state
       setUser(null)
       setUserRole(null)
+      
+      // Clear all localStorage data
+      localStorage.removeItem('krishilink_products')
+      localStorage.removeItem('language')
+      localStorage.removeItem('theme')
+      
+      // Clear any other app-specific localStorage items
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('krishilink_') || key === 'language' || key === 'theme') {
+          localStorage.removeItem(key)
+        }
+      })
+      
+      console.log('AuthContext - All data cleared during logout')
+      
       return { success: true }
     } catch (error) {
+      console.error('AuthContext - Logout error:', error)
       return { success: false, error: error.message }
     }
   }
