@@ -11,43 +11,68 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     // Check for existing session on mount
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user ?? null)
-      
-      if (session?.user) {
-        // Fetch user role from users table
-        const { data: userData } = await supabase
-          .from('users')
-          .select('role')
-          .eq('id', session.user.id)
-          .single()
+      try {
+        console.log('🔍 AuthContext: Getting session...')
         
-        setUserRole(userData?.role || null)
+        // Add timeout to prevent infinite loading
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Auth timeout')), 5000)
+        )
+        
+        const { data: { session } } = await Promise.race([
+          supabase.auth.getSession(),
+          timeoutPromise
+        ])
+
+        setUser(session?.user ?? null)
+
+        if (session?.user) {
+          try {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', session.user.id)
+              .single()
+
+            setUserRole(profile?.role || null)
+          } catch (profileError) {
+            console.error('Profile fetch error:', profileError)
+            setUserRole(null)
+          }
+        }
+      } catch (err) {
+        console.error('Auth error:', err)
+        setUser(null)
+        setUserRole(null)
+      } finally {
+        setLoading(false)
       }
-      
-      setLoading(false)
     }
 
     getSession()
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (_event, session) => {
         setUser(session?.user ?? null)
-        
+
         if (session?.user) {
-          // Fetch user role from users table
-          const { data: userData } = await supabase
-            .from('users')
-            .select('role')
-            .eq('id', session.user.id)
-            .single()
-          
-          setUserRole(userData?.role || null)
+          try {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', session.user.id)
+              .single()
+
+            setUserRole(profile?.role || null)
+          } catch (profileError) {
+            console.error('Profile fetch error in auth change:', profileError)
+            setUserRole(null)
+          }
         } else {
           setUserRole(null)
         }
-        
+
         setLoading(false)
       }
     )
@@ -55,33 +80,57 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  const signup = async (email, password, role) => {
+  // 🔥 FIXED SIGNUP
+  const signup = async (email, password, role, name) => {
     try {
-      const { data, error } = await supabase.auth.signUp({
+      console.log('🔐 AuthContext: Starting signup for email:', email)
+      
+      // Step 1: create auth user with timeout
+      const signupPromise = supabase.auth.signUp({
         email,
         password,
       })
+      
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Signup timeout')), 10000)
+      )
+      
+      const { data, error } = await Promise.race([signupPromise, timeoutPromise])
 
-      if (error) throw error
-
-      // Create user record in users table
-      if (data.user) {
-        const { error: insertError } = await supabase
-          .from('users')
-          .insert([
-            {
-              id: data.user.id,
-              email: data.user.email,
-              role: role,
-              created_at: new Date().toISOString()
-            }
-          ])
-
-        if (insertError) throw insertError
+      if (error) {
+        console.error('❌ AuthContext: Supabase signup error:', error)
+        throw error
       }
 
-      return { success: true, data }
+      console.log('✅ AuthContext: Supabase signup successful')
+
+      // Step 2: use user data directly from signup response
+      if (!data.user) {
+        throw new Error("User data not available after signup")
+      }
+
+      console.log('📝 AuthContext: Inserting profile for user:', data.user.id)
+
+      // Step 3: insert profile using user from signup response
+      const { error: insertError } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            id: data.user.id,
+            name: name,
+            role: role,
+          },
+        ])
+
+      if (insertError) {
+        console.error('❌ AuthContext: Profile insert error:', insertError)
+        throw insertError
+      }
+
+      console.log('✅ AuthContext: Profile inserted successfully')
+      return { success: true }
     } catch (error) {
+      console.error("❌ AuthContext: Signup error:", error)
       return { success: false, error: error.message }
     }
   }
@@ -95,41 +144,29 @@ export function AuthProvider({ children }) {
 
       if (error) throw error
 
-      return { success: true, data }
+      let role = null
+
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .single()
+
+        role = profile?.role || null
+        setUserRole(role)
+      }
+
+      return { success: true, role }
     } catch (error) {
       return { success: false, error: error.message }
     }
   }
 
   const logout = async () => {
-    try {
-      // Sign out from Supabase
-      const { error } = await supabase.auth.signOut()
-      if (error) throw error
-      
-      // Clear auth state
-      setUser(null)
-      setUserRole(null)
-      
-      // Clear all localStorage data
-      localStorage.removeItem('krishilink_products')
-      localStorage.removeItem('language')
-      localStorage.removeItem('theme')
-      
-      // Clear any other app-specific localStorage items
-      Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('krishilink_') || key === 'language' || key === 'theme') {
-          localStorage.removeItem(key)
-        }
-      })
-      
-      console.log('AuthContext - All data cleared during logout')
-      
-      return { success: true }
-    } catch (error) {
-      console.error('AuthContext - Logout error:', error)
-      return { success: false, error: error.message }
-    }
+    await supabase.auth.signOut()
+    setUser(null)
+    setUserRole(null)
   }
 
   const value = {
@@ -138,20 +175,12 @@ export function AuthProvider({ children }) {
     loading,
     signup,
     login,
-    logout
+    logout,
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
+  return useContext(AuthContext)
 }

@@ -28,11 +28,35 @@ function Login() {
     setLoading(true)
     setError('')
 
+    console.log('🚀 Login.jsx: handleSubmit called with email:', formData.email)
     const result = await login(formData.email, formData.password)
     
+    console.log('📊 Login.jsx: login result received:', result)
+    
     if (result.success) {
-      navigate('/dashboard')
+      // Role-based redirection
+      const role = result.role || 'farmer'
+      console.log('🎯 Login.jsx: Role-based redirection - role:', role)
+      
+      switch (role) {
+        case 'farmer':
+          console.log('🌾 Login.jsx: Redirecting farmer to /dashboard')
+          navigate('/dashboard')
+          break
+        case 'buyer':
+          console.log('🛒 Login.jsx: Redirecting buyer to /buyers')
+          navigate('/buyers')
+          break
+        case 'admin':
+          console.log('👑 Login.jsx: Redirecting admin to /dashboard')
+          navigate('/dashboard') // For now, admin also goes to dashboard
+          break
+        default:
+          console.log('❓ Login.jsx: Unknown role, defaulting to /dashboard')
+          navigate('/dashboard')
+      }
     } else {
+      console.error('❌ Login.jsx: Login failed:', result.error)
       setError(result.error)
     }
     

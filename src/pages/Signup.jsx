@@ -11,7 +11,7 @@ function Signup() {
     email: '',
     password: '',
     confirmPassword: '',
-    userType: 'farmer'
+    role: 'farmer'
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -67,7 +67,9 @@ function Signup() {
     }
 
     try {
-      const result = await signup(formData.email, formData.password, formData.userType)
+      console.log('🚀 Signup: Starting signup process...')
+      const result = await signup(formData.email, formData.password, formData.role, formData.name)
+      console.log('📊 Signup: Result received:', result)
       
       if (result.success) {
         setSuccess(t('accountCreatedSuccess'))
@@ -75,6 +77,7 @@ function Signup() {
           navigate('/')
         }, 2000)
       } else {
+        console.error('❌ Signup: Failed with error:', result.error)
         // Handle rate limit errors specifically
         const errorMessage = result.error.toLowerCase()
         if (errorMessage.includes('rate limit') || 
@@ -98,8 +101,10 @@ function Signup() {
         }
       }
     } catch (error) {
+      console.error('❌ Signup: Exception caught:', error)
       setError('An unexpected error occurred. Please try again.')
     } finally {
+      console.log('🏁 Signup: Setting loading to false')
       setLoading(false)
     }
   }
@@ -178,20 +183,20 @@ function Signup() {
             </div>
 
             <div>
-              <label htmlFor="userType" className="block text-sm font-medium text-gray-700 mb-2">
-                {t('iAmA')}
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                I am a:
               </label>
               <select
-                id="userType"
-                name="userType"
-                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm transition-colors"
-                value={formData.userType}
-                onChange={handleChange}
-              >
-                <option value="farmer">{t('farmer')}</option>
-                <option value="buyer">{t('buyer')}</option>
-                <option value="distributor">{t('distributor')}</option>
-              </select>
+  id="role"
+  name="role"
+  className="appearance-none relative block w-full px-3 py-3 border border-gray-300 text-gray-900 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm transition-colors"
+  value={formData.role}
+  onChange={handleChange}
+>
+  <option value="farmer">🌾 Farmer - I want to sell my products</option>
+  <option value="buyer">🛒 Buyer - I want to purchase products</option>
+  
+</select>
             </div>
 
             <div>

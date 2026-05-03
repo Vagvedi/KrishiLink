@@ -16,12 +16,21 @@ function Profile() {
 
   const handleLogout = async () => {
     try {
+      console.log('Profile - Starting logout process')
       const result = await logout()
+      console.log('Profile - Logout result:', result)
+      
       if (result.success) {
-        navigate('/')
+        console.log('Profile - Logout successful, navigating to home')
+        // Use window.location for more reliable navigation after logout
+        window.location.href = '/'
+      } else {
+        console.error('Profile - Logout failed:', result.error)
       }
     } catch (error) {
       console.error('Profile - Logout error:', error)
+      // Force navigation even if there's an error
+      window.location.href = '/'
     }
   }
 

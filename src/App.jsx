@@ -13,6 +13,7 @@ import AddProduct from './pages/AddProduct'
 import Orders from './pages/Orders'
 import Buyers from './pages/Buyers'
 import Profile from './pages/Profile'
+import Unauthorized from './pages/Unauthorized'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function AppContent() {
@@ -26,7 +27,7 @@ function AppContent() {
     if (!user && !loading) {
       clearProducts()
     }
-  }, [user, loading, clearProducts])
+  }, [user, loading]) // Remove clearProducts to prevent infinite loop
 
   if (loading) {
     return (
@@ -47,7 +48,7 @@ function AppContent() {
         <Route 
           path="/dashboard" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['farmer', 'buyer', 'admin']}>
               <Dashboard />
             </ProtectedRoute>
           } 
@@ -55,7 +56,7 @@ function AppContent() {
         <Route 
           path="/add-product" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['farmer', 'admin']}>
               <AddProduct />
             </ProtectedRoute>
           } 
@@ -63,7 +64,7 @@ function AppContent() {
         <Route 
           path="/orders" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['farmer', 'buyer', 'admin']}>
               <Orders />
             </ProtectedRoute>
           } 
@@ -71,7 +72,7 @@ function AppContent() {
         <Route 
           path="/buyers" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['farmer', 'admin']}>
               <Buyers />
             </ProtectedRoute>
           } 
@@ -79,11 +80,12 @@ function AppContent() {
         <Route 
           path="/profile" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['farmer', 'buyer', 'admin']}>
               <Profile />
             </ProtectedRoute>
           } 
         />
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </div>
   )
@@ -94,11 +96,11 @@ function App() {
     <LanguageProvider>
       <ThemeProvider>
         <AppDataProvider>
-          <ProductProvider>
-            <AuthProvider>
+          <AuthProvider>
+            <ProductProvider>
               <AppContent />
-            </AuthProvider>
-          </ProductProvider>
+            </ProductProvider>
+          </AuthProvider>
         </AppDataProvider>
       </ThemeProvider>
     </LanguageProvider>
