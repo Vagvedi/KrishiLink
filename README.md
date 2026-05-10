@@ -1,302 +1,409 @@
-# KrishiLink - Agricultural Marketplace Platform
 
-A modern React-based agricultural marketplace platform connecting farmers with buyers and distributors.
 
-## 🌟 Features
+# 🌾 KrishiLink
 
-### Core Functionality
-- **User Authentication**: Secure login/signup with role-based access (Farmer, Buyer, Distributor)
-- **Product Management**: Add, view, and manage agricultural products
-- **State Management**: Global state management using React Context API
-- **Theme System**: Dark/Light mode with localStorage persistence
-- **Multi-language Support**: English and Hindi language toggle
-- **Responsive Design**: Mobile-first responsive UI using Tailwind CSS
+**Connecting Farmers to Markets, Digitally**
 
-### Key Pages
-- **Dashboard**: Real-time analytics and product overview
-- **Add Product**: Form to add new agricultural products
-- **Orders**: View and manage customer orders
-- **Buyers**: Connect with verified buyers and distributors
-- **Profile & Settings**: User preferences and theme management
 
-## 🚀 Getting Started
+*A modern agricultural marketplace platform empowering farmers with direct market access through technology.*
+
+
+
+---
+
+## 🎯 About
+
+KrishiLink is a revolutionary agricultural marketplace platform that bridges the gap between farmers and buyers. Built with modern web technologies, it provides a seamless experience for farmers to showcase their products and connect directly with buyers, eliminating traditional supply chain inefficiencies.
+
+### 🌟 Why KrishiLink?
+
+- **🤝 Direct Connection**: Farmers connect directly with buyers, cutting out middlemen
+- **📱 Mobile-First**: Responsive design works seamlessly on all devices
+- **🌍 Multi-Language**: Support for English and Hindi languages
+- **🔒 Secure**: Role-based authentication with Supabase
+- **🎨 Beautiful UI**: Modern, intuitive interface with Tailwind CSS
+
+---
+
+## ✨ Features
+
+### 🏠 Core Features
+
+| Feature | Description |
+|---------|-------------|
+| 🔐 **Authentication** | Secure login/signup with role-based access (Farmer, Buyer, Admin) |
+| 📦 **Product Management** | Add, edit, and manage agricultural products with ease |
+| 📊 **Dashboard Analytics** | Real-time insights and product performance metrics |
+| 🛒 **Marketplace** | Browse and discover products from verified farmers |
+| 📱 **Responsive Design** | Optimized for mobile, tablet, and desktop experiences |
+| 🌙 **Theme System** | Dark/Light mode with localStorage persistence |
+| 🌐 **Multi-Language** | English and Hindi language support |
+| 📧 **Order Management** | Track and manage customer orders efficiently |
+
+### 🎨 User Experience
+
+- **Intuitive Navigation**: Clean, user-friendly interface
+- **Real-time Updates**: Live data synchronization
+- **Offline Support**: Basic functionality works offline
+- **Fast Performance**: Optimized for speed and efficiency
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+### Frontend
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=flat-square&logo=react-router&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=flat-square&logo=vite&logoColor=FFD62E)
+
+### Backend & Database
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+
+### Development Tools
+![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=flat-square&logo=eslint&logoColor=white)
+![PostCSS](https://img.shields.io/badge/PostCSS-DD3A0A?style=flat-square&logo=postcss&logoColor=white)
+![Autoprefixer](https://img.shields.io/badge/Autoprefixer-DD3735?style=flat-square&logo=autoprefixer&logoColor=white)
+
+</div>
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 16+ 
-- npm or yarn package manager
+
+- Node.js 18+ 
+- npm or yarn
+- Git
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd KrishiLink
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/krishilink.git
+cd krishilink
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+# Install dependencies
+npm install
 
-3. **Start development server**
-   ```bash
-   npm run dev
-   ```
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your Supabase credentials
 
-4. **Open in browser**
-   Navigate to `http://localhost:5173`
-
-## 🏗️ Project Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── LanguageToggle.jsx
-│   ├── ProtectedRoute.jsx
-│   ├── SettingsModal.jsx
-│   └── BuyerProfileModal.jsx
-├── contexts/           # React Context providers
-│   ├── AuthContext.jsx
-│   ├── LanguageContext.jsx
-│   ├── ThemeContext.jsx
-│   ├── ProductContext.jsx
-│   └── AppDataContext.jsx
-├── pages/              # Page components
-│   ├── Login.jsx
-│   ├── Signup.jsx
-│   ├── Dashboard.jsx
-│   ├── AddProduct.jsx
-│   ├── Orders.jsx
-│   └── Buyers.jsx
-├── utils/              # Utility functions
-│   └── translations.js
-├── data/               # Static data
-│   └── dummyData.js
-├── App.jsx             # Main app component
-├── main.jsx            # App entry point
-└── index.css           # Global styles
+# Start the development server
+npm run dev
 ```
 
-## 🎨 Tech Stack
+### Environment Setup
 
-### Frontend
-- **React 18** - UI framework with hooks
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router** - Client-side routing
-- **React Context API** - State management
-
-### Backend/Services
-- **Supabase** - Authentication and database services
-- **localStorage** - Client-side persistence for theme/language
-
-## 🔧 Configuration
-
-### Environment Variables
-Create a `.env` file in the root directory:
+Create a `.env.local` file in the root directory:
 
 ```env
-VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-### Tailwind Configuration
-- Dark mode configured with `darkMode: 'class'`
-- Custom theme extensions in `tailwind.config.js`
+### Database Setup
 
-## 📱 State Management
+1. Create a new project at [Supabase](https://supabase.com)
+2. Run the SQL from `database-schema.sql` in your Supabase SQL Editor
+3. Update your environment variables with your project credentials
 
-### Context Architecture
+---
+
+## 📖 Usage
+
+### Running the Application
+
+```bash
+# Development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
 ```
-LanguageProvider
-├── ThemeProvider
-│   ├── AppDataProvider
-│   │   ├── ProductProvider
-│   │   │   └── AuthProvider
-│   │   │       └── App Components
+
+### User Roles
+
+| Role | Permissions |
+|------|-------------|
+| 👨‍🌾 **Farmer** | Add products, manage inventory, view orders |
+| 🛒 **Buyer** | Browse products, place orders, view purchase history |
+| 👑 **Admin** | Manage users, view all orders, system administration |
+
+### Key Features
+
+1. **Authentication**: Secure login/signup with email verification
+2. **Product Management**: Add products with images, descriptions, and pricing
+3. **Order Tracking**: Real-time order status updates
+4. **Multi-language**: Switch between English and Hindi
+5. **Theme Toggle**: Dark and light mode support
+
+---
+
+## 📁 Project Structure
+
+```
+krishilink/
+├── 📁 src/
+│   ├── 📁 components/          # Reusable UI components
+│   │   ├── 📄 BottomNav.jsx
+│   │   ├── 📄 LanguageToggle.jsx
+│   │   ├── 📄 Navbar.jsx
+│   │   ├── 📄 ProtectedRoute.jsx
+│   │   └── 📄 SettingsModal.jsx
+│   ├── 📁 contexts/           # React Context providers
+│   │   ├── 📄 AppDataContext.jsx
+│   │   ├── 📄 AuthContext.jsx
+│   │   ├── 📄 LanguageContext.jsx
+│   │   ├── 📄 ProductContext.jsx
+│   │   └── 📄 ThemeContext.jsx
+│   ├── 📁 pages/              # Page components
+│   │   ├── 📄 AddProduct.jsx
+│   │   ├── 📄 Buyers.jsx
+│   │   ├── 📄 Dashboard.jsx
+│   │   ├── 📄 Login.jsx
+│   │   ├── 📄 Orders.jsx
+│   │   ├── 📄 Profile.jsx
+│   │   ├── 📄 Signup.jsx
+│   │   └── 📄 Unauthorized.jsx
+│   ├── 📁 services/           # External services
+│   │   └── 📄 supabase.js
+│   ├── 📁 utils/              # Utility functions
+│   │   └── 📄 translations.js
+│   ├── 📄 App.jsx             # Main App component
+│   ├── 📄 main.jsx            # Application entry point
+│   └── 📄 index.css           # Global styles
+├── 📄 database-schema.sql     # Database schema
+├── 📄 package.json           # Dependencies and scripts
+├── 📄 tailwind.config.js     # Tailwind configuration
+├── 📄 vite.config.js         # Vite configuration
+└── 📄 README.md              # This file
 ```
 
-### Available Contexts
-- **AuthContext**: User authentication and authorization
-- **LanguageContext**: Multi-language support (EN/HI)
-- **ThemeContext**: Dark/light mode management
-- **ProductContext**: Global product state
-- **AppDataContext**: Additional app-wide state
+---
 
-## 🎯 User Roles
+## 🎨 Components Overview
 
-### Farmer
-- Add and manage products
-- View orders and analytics
-- Connect with buyers
-
-### Buyer
-- Browse agricultural products
-- Place orders
-- View order history
-
-### Distributor
-- Bulk purchasing capabilities
-- Logistics management
-- Supply chain coordination
-
-## 🌐 Features Deep Dive
-
-### Theme System
-- **Toggle**: Instant dark/light mode switching
-- **Persistence**: Theme preference saved in localStorage
-- **Global**: Applied across all components via Context API
-- **Tailwind**: Uses `dark:` prefix for dark mode styles
+### Authentication System
+- **Login/Signup**: Secure authentication with role-based access
+- **Protected Routes**: Route guards for different user roles
+- **Session Management**: Persistent login state
 
 ### Product Management
-- **CRUD Operations**: Create, Read, Update, Delete products
-- **Categories**: Grains, Vegetables, Fruits, Dairy, Others
-- **Fields**: Name, Category, Price, Quantity, Description
-- **State Persistence**: Products stored in global context
+- **Add Product**: Form for adding new agricultural products
+- **Product Listings**: Grid view with filtering and search
+- **Product Details**: Detailed product information
 
-### Authentication Flow
-1. **Login**: Email/password with Supabase auth
-2. **Signup**: Role selection with email verification
-3. **Protected Routes**: Authenticated access only
-4. **Logout**: Clean session clearing and redirect
+### User Interface
+- **Responsive Navigation**: Mobile-friendly navigation menu
+- **Theme System**: Dark/light mode toggle
+- **Language Support**: Multi-language interface
 
-### Language Support
-- **English**: Default language
-- **Hindi**: Complete Hindi translations
-- **Toggle**: Instant language switching
-- **Persistence**: Language preference saved
+---
 
-## 🛠️ Development
+## 🔧 Configuration
 
-### Available Scripts
-```json
-{
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+### Tailwind CSS Configuration
+
+The project uses Tailwind CSS with custom configurations:
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#10B981',
+        secondary: '#3B82F6',
+      },
+    },
+  },
+  plugins: [],
 }
 ```
+
+### Supabase Setup
+
+1. **Create Project**: Sign up at [Supabase](https://supabase.com)
+2. **Database Schema**: Run the provided SQL schema
+3. **Environment Variables**: Configure your credentials
+4. **RLS Policies**: Row Level Security is pre-configured
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
 
 ### Development Workflow
-1. **Start**: `npm run dev` for hot reload development
-2. **Build**: `npm run build` for production bundle
-3. **Preview**: `npm run preview` to test production build
 
-## 📊 State Management Examples
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
-### Using ProductContext
-```jsx
-import { useProductContext } from '../contexts/ProductContext'
+### Guidelines
 
-function MyComponent() {
-  const { products, addProduct, getProductsCount } = useProductContext()
-  
-  const handleAddProduct = (product) => {
-    addProduct(product)
-  }
-  
-  return <div>Total Products: {getProductsCount()}</div>
-}
+- 🎯 Follow the existing code style
+- 📝 Write clear commit messages
+- 🧪 Test your changes thoroughly
+- 📖 Update documentation as needed
+- 🤝 Be respectful and constructive
+
+### Code Standards
+
+- Use **ESLint** for code linting
+- Follow **React** best practices
+- Write **semantic** HTML
+- Use **Tailwind CSS** for styling
+- Keep components **small and focused**
+
+---
+
+## 📝 API Reference
+
+### Authentication Endpoints
+
+```javascript
+// Login
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'user@example.com',
+  password: 'password'
+})
+
+// Signup
+const { data, error } = await supabase.auth.signUp({
+  email: 'user@example.com',
+  password: 'password'
+})
 ```
 
-### Using ThemeContext
-```jsx
-import { useTheme } from '../contexts/ThemeContext'
+### Database Operations
 
-function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme()
-  
-  return (
-    <button onClick={toggleTheme}>
-      {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-    </button>
-  )
-}
+```javascript
+// Insert Product
+const { data, error } = await supabase
+  .from('products')
+  .insert([{ name: 'Product Name', price: 100 }])
+
+// Get Products
+const { data, error } = await supabase
+  .from('products')
+  .select('*')
 ```
 
-## 🔒 Security Considerations
+---
 
-### Authentication
-- Supabase handles password hashing
-- JWT tokens for session management
-- Protected routes prevent unauthorized access
-- Input validation on all forms
+## 🧪 Testing
 
-### Data Protection
-- No sensitive data in localStorage (except preferences)
-- Environment variables for API keys
-- HTTPS required for production
+```bash
+# Run linting
+npm run lint
+
+# Run type checking (if using TypeScript)
+npm run type-check
+
+# Build test
+npm run build
+```
+
+---
+
+## 📈 Performance
+
+- ⚡ **Fast Loading**: Optimized bundle size
+- 🎯 **SEO Friendly**: Meta tags and semantic HTML
+- 📱 **Mobile Optimized**: Responsive design
+- 🔄 **Lazy Loading**: Components load as needed
+
+---
 
 ## 🚀 Deployment
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
 
-### Environment Setup
-- Set production environment variables
-- Configure Supabase for production
-- Update API endpoints if needed
+### Deploy to Vercel
 
-### Hosting Options
-- **Vercel**: Recommended for React apps
-- **Netlify**: Static site hosting
-- **AWS S3**: Custom hosting with CloudFront
+```bash
+# Install Vercel CLI
+npm i -g vercel
 
-## 🤝 Contributing
+# Deploy
+vercel --prod
+```
 
-### Development Guidelines
-1. **Fork** the repository
-2. **Create** feature branch
-3. **Follow** existing code style
-4. **Test** thoroughly
-5. **Submit** pull request
+### Environment Variables
 
-### Code Style
-- **ESLint** configuration included
-- **Prettier** for formatting
-- **Component-based** architecture
-- **Context** for shared state
+Set these in your deployment platform:
 
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-### Common Issues
-- **White Screen**: Check console for JavaScript errors
-- **Auth Issues**: Verify Supabase configuration
-- **Theme Not Working**: Ensure Tailwind dark mode is configured
-- **State Not Persisting**: Check Context provider hierarchy
-
-### Debug Mode
-Enable console logging for development:
-- Theme changes: `ThemeContext - Applying theme`
-- Product updates: `Adding product to global state`
-- Auth events: `Auth - Login/Logout events`
-
-## 📈 Future Enhancements
-
-### Planned Features
-- [ ] Real-time notifications
-- [ ] Advanced filtering and search
-- [ ] Mobile app (React Native)
-- [ ] Payment integration
-- [ ] Analytics dashboard
-- [ ] Multi-currency support
-- [ ] Advanced user profiles
-
-### Performance Optimizations
-- [ ] Code splitting
-- [ ] Image optimization
-- [ ] Service workers
-- [ ] Caching strategy
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
 
 ---
 
-**KrishiLink** - Connecting Farmers to Markets, Digitally 🌾
+## 🐛 Troubleshooting
 
-Built with ❤️ using React, Tailwind CSS, and modern web technologies.
+### Common Issues
+
+1. **Supabase Connection Error**
+   - Check environment variables
+   - Verify Supabase project URL and keys
+
+2. **Build Errors**
+   - Clear node_modules and reinstall
+   - Check for missing dependencies
+
+3. **Styling Issues**
+   - Ensure Tailwind CSS is properly configured
+   - Check PostCSS configuration
+
+---
+
+## 📄 License
+
+This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **React Team** - For the amazing React framework
+- **Supabase** - For the excellent backend-as-a-service
+- **Tailwind CSS** - For the utility-first CSS framework
+- **Vite** - For the fast build tool
+
+---
+
+
+
+**Made with ❤️ for farmers everywhere**
+
+[🔝 Back to Top](#-krishilink)
+
+
+
+
+  
+    
+
+
+
+
+
